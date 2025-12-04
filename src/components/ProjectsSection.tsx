@@ -9,7 +9,7 @@ const ProjectsSection = () => {
       title: "Intelligent Customer Support Agent",
       description: "A sophisticated RAG-based AI system for enterprise customer support automation.",
       tags: ["AI/ML", "RAG System", "Enterprise"],
-      color: "from-orange-500/20 to-red-500/20",
+      color: "from-blue-500/20 to-indigo-500/20",
     },
     {
       icon: ShoppingCart,
@@ -17,7 +17,7 @@ const ProjectsSection = () => {
       title: "Next-Gen E-Commerce Platform",
       description: "Multi-vendor marketplace with advanced analytics and real-time inventory management.",
       tags: ["E-Commerce", "Multi-vendor", "Analytics"],
-      color: "from-blue-500/20 to-cyan-500/20",
+      color: "from-cyan-500/20 to-sky-500/20",
     },
     {
       icon: Smartphone,
@@ -25,7 +25,7 @@ const ProjectsSection = () => {
       title: "Fintech Mobile App Redesign",
       description: "Complete UI/UX overhaul for a leading fintech mobile application.",
       tags: ["Fintech", "Mobile", "UI/UX"],
-      color: "from-green-500/20 to-emerald-500/20",
+      color: "from-teal-500/20 to-emerald-500/20",
     },
   ];
 
