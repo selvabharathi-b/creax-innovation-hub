@@ -34,7 +34,7 @@ const FooterCTA = () => {
   return (
     <footer id="contact" className="pt-24 pb-8 relative">
       {/* CTA Section */}
-      <div className="container mx-auto px-6 mb-20">
+      <div className="container mx-auto px-6 md:px-12 lg:px-20 mb-20">
         <div className="glass-card rounded-3xl p-8 md:p-12 relative overflow-hidden">
           {/* Background decoration */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
@@ -77,7 +77,7 @@ const FooterCTA = () => {
       </div>
 
       {/* Footer Links */}
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 md:px-12 lg:px-20">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8 pb-12 border-b border-border">
           {/* Brand */}
           <div className="col-span-2 md:col-span-1">

@@ -32,7 +32,7 @@ const ServicesSection = () => {
     <section id="services" className="py-24 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-background via-secondary/10 to-background" />
       
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
         {/* Header */}
         <div className="text-center max-w-2xl mx-auto mb-16 opacity-0 animate-fade-in-up">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary/10 border border-primary/20 mb-4">

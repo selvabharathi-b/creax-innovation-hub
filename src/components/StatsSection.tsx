@@ -32,7 +32,7 @@ const StatsSection = () => {
     <section className="py-20 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-secondary/20 to-background" />
       
-      <div className="container mx-auto px-6 relative z-10">
+      <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
           {stats.map((stat, index) => (
             <div
