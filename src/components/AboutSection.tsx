@@ -10,7 +10,7 @@ const AboutSection = () => {
 
   return (
     <section id="about" className="py-24 relative">
-      <div className="container mx-auto px-6">
+      <div className="container mx-auto px-6 md:px-12 lg:px-20">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
           {/* Left - Visual */}
           <div className="relative opacity-0 animate-slide-in-left">
