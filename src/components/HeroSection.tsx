@@ -1,70 +1,69 @@
-import { ArrowRight, Play, Sparkles, ChevronDown } from "lucide-react";
+import { ArrowRight, Play, Sparkles, ChevronDown, Code2, Rocket, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
   return (
     <section id="home" className="min-h-screen flex items-center pt-20 pb-12 relative overflow-hidden">
-      {/* Animated background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-background via-background to-primary/5" />
+      {/* Layered background */}
+      <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/30" />
       
-      {/* Animated grid pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(255,131,47,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,131,47,0.03)_1px,transparent_1px)] bg-[size:60px_60px] animate-[pulse_4s_ease-in-out_infinite]" />
+      {/* Decorative circles */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[1200px] rounded-full border border-primary/5" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full border border-primary/10" />
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full border border-primary/10" />
       
-      {/* Floating orbs with animations */}
-      <div className="absolute top-20 left-[10%] w-72 h-72 bg-primary/20 rounded-full blur-[100px] animate-pulse" />
-      <div className="absolute bottom-20 right-[10%] w-96 h-96 bg-amber-400/15 rounded-full blur-[120px] animate-pulse" style={{ animationDelay: '1s' }} />
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[100px]" />
+      {/* Animated gradient orbs */}
+      <div className="absolute top-1/4 left-[5%] w-80 h-80 bg-primary/25 rounded-full blur-[120px] animate-pulse" />
+      <div className="absolute bottom-1/4 right-[5%] w-96 h-96 bg-amber-500/20 rounded-full blur-[140px] animate-pulse" style={{ animationDelay: '1s' }} />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px]" />
 
-      {/* Animated particles */}
+      {/* Floating geometric shapes */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        {[...Array(6)].map((_, i) => (
-          <div
-            key={i}
-            className="absolute w-2 h-2 bg-primary/30 rounded-full animate-float"
-            style={{
-              left: `${15 + i * 15}%`,
-              top: `${20 + (i % 3) * 25}%`,
-              animationDelay: `${i * 0.5}s`,
-              animationDuration: `${3 + i * 0.5}s`
-            }}
-          />
-        ))}
+        <div className="absolute top-[15%] left-[8%] w-16 h-16 border-2 border-primary/20 rounded-2xl rotate-12 animate-float" />
+        <div className="absolute top-[25%] right-[12%] w-12 h-12 bg-primary/10 rounded-full animate-float" style={{ animationDelay: '0.5s' }} />
+        <div className="absolute bottom-[30%] left-[15%] w-8 h-8 bg-amber-500/20 rounded-lg rotate-45 animate-float" style={{ animationDelay: '1s' }} />
+        <div className="absolute bottom-[20%] right-[8%] w-20 h-20 border border-primary/15 rounded-full animate-float" style={{ animationDelay: '1.5s' }} />
+        <div className="absolute top-[40%] left-[3%] w-6 h-6 bg-primary/30 rounded-full animate-pulse" />
+        <div className="absolute top-[60%] right-[5%] w-4 h-4 bg-amber-500/40 rounded-full animate-pulse" style={{ animationDelay: '0.7s' }} />
       </div>
 
       <div className="container mx-auto px-6 md:px-12 lg:px-24 xl:px-32 relative z-10">
         <div className="max-w-6xl mx-auto">
-          {/* Top badge with shine effect */}
-          <div className="flex justify-center mb-8 opacity-0 animate-fade-in-up">
-            <div className="relative inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-sm overflow-hidden group hover:border-primary/40 transition-colors cursor-default">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/10 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-              <Sparkles className="w-4 h-4 text-primary animate-pulse" />
-              <span className="text-sm text-primary font-semibold">Build • Deploy • Dominate</span>
-              <div className="w-px h-4 bg-primary/30" />
-              <span className="text-xs text-muted-foreground">Est. 2024</span>
+          {/* Top badge */}
+          <div className="flex justify-center mb-10 opacity-0 animate-fade-in-up">
+            <div className="relative inline-flex items-center gap-3 px-6 py-3 rounded-full bg-card/80 border border-border backdrop-blur-md shadow-lg overflow-hidden group hover:border-primary/40 transition-all duration-300 cursor-default">
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-xs font-medium text-emerald-600">Active</span>
+              </div>
+              <div className="w-px h-5 bg-border" />
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-sm font-semibold text-foreground">Build • Deploy • Dominate</span>
             </div>
           </div>
 
-          {/* Main headline with staggered animation */}
-          <div className="text-center mb-10 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.15s' }}>
-            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-display leading-[1.05] tracking-tight mb-8">
-              <span className="inline-block opacity-0 animate-fade-in-up" style={{ animationDelay: '0.2s' }}>
+          {/* Main headline */}
+          <div className="text-center mb-12">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-display leading-[1.02] tracking-tight mb-8">
+              <span className="inline-block opacity-0 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                 The Future of Tech.
               </span>
               <br />
-              <span className="inline-block opacity-0 animate-fade-in-up" style={{ animationDelay: '0.35s' }}>
-                <span className="text-gradient relative">
-                  Built & Trained
-                  <svg className="absolute -bottom-2 left-0 w-full" viewBox="0 0 300 12" fill="none">
+              <span className="inline-block opacity-0 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
+                <span className="relative inline-block">
+                  <span className="text-gradient">Built & Trained</span>
+                  <svg className="absolute -bottom-1 md:-bottom-2 left-0 w-full h-3 md:h-4" viewBox="0 0 300 12" fill="none" preserveAspectRatio="none">
                     <path 
-                      d="M2 10C50 4 100 2 150 6C200 10 250 4 298 8" 
+                      d="M2 8C60 4 120 10 180 6C240 2 280 8 298 6" 
                       stroke="hsl(var(--primary))" 
-                      strokeWidth="3" 
+                      strokeWidth="4" 
                       strokeLinecap="round"
-                      className="animate-[dash_1.5s_ease-out_forwards]"
+                      className="animate-[dash_1s_ease-out_forwards]"
                       style={{ 
                         strokeDasharray: 300,
                         strokeDashoffset: 300,
-                        animationDelay: '0.8s'
+                        animationDelay: '0.7s'
                       }}
                     />
                   </svg>
@@ -72,43 +71,67 @@ const HeroSection = () => {
                 {" "}Here.
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed opacity-0 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
+            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed opacity-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               We are a strategic technology partner that builds market-defining digital products 
               while forging the next generation of elite tech talent.
             </p>
           </div>
 
-          {/* CTA Buttons with hover effects */}
-          <div className="flex flex-wrap justify-center gap-4 mb-16 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+          {/* CTA Buttons */}
+          <div className="flex flex-wrap justify-center gap-4 mb-16 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
             <Button 
               size="lg" 
-              className="relative bg-gradient-primary hover:opacity-90 transition-all text-primary-foreground group h-14 px-8 text-base glow overflow-hidden"
+              className="relative bg-gradient-primary hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 text-primary-foreground group h-14 px-8 text-base overflow-hidden"
             >
-              <span className="relative z-10 flex items-center">
+              <span className="relative z-10 flex items-center font-semibold">
                 Hire Our Agency
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </span>
-              <div className="absolute inset-0 bg-gradient-to-r from-primary via-amber-500 to-primary bg-[length:200%_100%] animate-[shimmer_2s_linear_infinite] opacity-0 group-hover:opacity-100 transition-opacity" />
             </Button>
             <Button 
               size="lg" 
               variant="outline" 
-              className="border-border bg-card/50 backdrop-blur-sm hover:bg-secondary hover:border-primary/30 transition-all h-14 px-8 text-base group"
+              className="border-border bg-card/80 backdrop-blur-sm hover:bg-card hover:border-primary/40 hover:shadow-lg transition-all duration-300 h-14 px-8 text-base group"
             >
-              <Play className="mr-2 h-4 w-4 group-hover:scale-110 transition-transform" />
+              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 group-hover:bg-primary/20 transition-colors">
+                <Play className="h-3.5 w-3.5 text-primary ml-0.5" fill="currentColor" />
+              </div>
               Watch Demo
             </Button>
           </div>
 
-          {/* Trust badges with staggered reveal */}
-          <div className="text-center opacity-0 animate-fade-in-up" style={{ animationDelay: '0.75s' }}>
-            <p className="text-sm text-muted-foreground mb-6">Trusted by innovative companies</p>
-            <div className="flex flex-wrap justify-center items-center gap-8 md:gap-12">
+          {/* Stats cards */}
+          <div className="grid grid-cols-3 gap-4 md:gap-6 max-w-2xl mx-auto mb-16 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
+            {[
+              { icon: Code2, value: "50+", label: "Projects", color: "from-primary to-amber-500" },
+              { icon: Users, value: "200+", label: "Developers", color: "from-amber-500 to-orange-500" },
+              { icon: Rocket, value: "98%", label: "Success", color: "from-orange-500 to-red-500" },
+            ].map((stat, i) => (
+              <div 
+                key={stat.label}
+                className="group relative bg-card/80 backdrop-blur-sm rounded-2xl p-4 md:p-6 border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300 cursor-default"
+              >
+                <div className={`w-10 h-10 md:w-12 md:h-12 mx-auto mb-3 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                  <stat.icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
+                </div>
+                <div className="text-2xl md:text-3xl font-bold font-display text-foreground text-center">
+                  {stat.value}
+                </div>
+                <div className="text-xs md:text-sm text-muted-foreground text-center">
+                  {stat.label}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Trust badges */}
+          <div className="text-center opacity-0 animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
+            <p className="text-sm text-muted-foreground mb-6 font-medium">Trusted by innovative companies worldwide</p>
+            <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10">
               {['TechCorp', 'InnovateLabs', 'FutureDev', 'CloudScale', 'DataFlow'].map((company, i) => (
                 <div 
                   key={company} 
-                  className="text-lg font-bold font-display text-muted-foreground/40 hover:text-primary transition-colors duration-300 cursor-default opacity-0 animate-fade-in"
-                  style={{ animationDelay: `${0.9 + i * 0.1}s` }}
+                  className="px-4 py-2 rounded-lg bg-secondary/50 border border-transparent hover:border-primary/20 text-base font-bold font-display text-muted-foreground/50 hover:text-primary transition-all duration-300 cursor-default"
                 >
                   {company}
                 </div>
@@ -118,12 +141,14 @@ const HeroSection = () => {
         </div>
       </div>
 
-      {/* Scroll indicator with bounce */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-fade-in-up" style={{ animationDelay: '1.2s' }}>
-        <div className="flex flex-col items-center gap-2 text-muted-foreground/50 hover:text-primary/70 transition-colors cursor-pointer group">
-          <span className="text-xs font-medium tracking-wider uppercase">Scroll</span>
-          <ChevronDown className="w-5 h-5 animate-bounce" />
-        </div>
+      {/* Scroll indicator */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-fade-in-up" style={{ animationDelay: '1s' }}>
+        <a href="#about" className="flex flex-col items-center gap-2 text-muted-foreground/60 hover:text-primary transition-colors cursor-pointer group">
+          <span className="text-xs font-medium tracking-widest uppercase">Explore</span>
+          <div className="w-6 h-10 rounded-full border-2 border-current flex items-start justify-center p-1.5">
+            <div className="w-1.5 h-3 bg-current rounded-full animate-bounce" />
+          </div>
+        </a>
       </div>
     </section>
   );
