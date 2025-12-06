@@ -94,6 +94,16 @@
 }
 
 /* Animations */
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
 @keyframes fade-in-up {
   from {
     opacity: 0;
