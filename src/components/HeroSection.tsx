@@ -1,4 +1,4 @@
-import { ArrowRight, Play, Sparkles, Code2, Zap, TrendingUp } from "lucide-react";
+import { ArrowRight, Play, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
@@ -57,33 +57,6 @@ const HeroSection = () => {
               <Play className="mr-2 h-4 w-4" />
               Watch Demo
             </Button>
-          </div>
-
-          {/* Stats row */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8 max-w-4xl mx-auto opacity-0 animate-fade-in-up" style={{ animationDelay: '0.3s' }}>
-            {[
-              { icon: Code2, value: "50+", label: "Projects Delivered", color: "from-blue-500 to-cyan-500" },
-              { icon: Zap, value: "200+", label: "Developers Trained", color: "from-violet-500 to-purple-500" },
-              { icon: TrendingUp, value: "98%", label: "Client Satisfaction", color: "from-emerald-500 to-teal-500" },
-              { icon: Sparkles, value: "Top 1%", label: "Elite Talent", color: "from-amber-500 to-orange-500" },
-            ].map((stat, index) => (
-              <div 
-                key={stat.label}
-                className="group relative"
-              >
-                <div className="glass-card rounded-2xl p-5 md:p-6 text-center hover:border-primary/30 transition-all duration-300 h-full">
-                  <div className={`w-12 h-12 mx-auto mb-3 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center opacity-80 group-hover:opacity-100 transition-opacity`}>
-                    <stat.icon className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="text-2xl md:text-3xl font-bold font-display text-foreground mb-1">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs md:text-sm text-muted-foreground">
-                    {stat.label}
-                  </div>
-                </div>
-              </div>
-            ))}
           </div>
 
           {/* Trust badges */}
