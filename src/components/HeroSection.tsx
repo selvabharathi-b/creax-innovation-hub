@@ -1,7 +1,10 @@
 import { ArrowRight, Play, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { siteData } from "@/data/siteData";
 
 const HeroSection = () => {
+  const { hero, company } = siteData;
+
   return (
     <section id="home" className="min-h-screen flex items-center pt-20 pb-12 relative overflow-hidden">
       {/* Layered background */}
@@ -39,7 +42,7 @@ const HeroSection = () => {
               </div>
               <div className="w-px h-5 bg-border" />
               <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-semibold text-foreground">Build • Deploy • Dominate</span>
+              <span className="text-sm font-semibold text-foreground">{hero.badge}</span>
             </div>
           </div>
 
@@ -47,17 +50,16 @@ const HeroSection = () => {
           <div className="text-center mb-12">
             <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-display leading-[1.02] tracking-tight mb-8">
               <span className="inline-block opacity-0 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
-                The Future of Tech.
+                {hero.headline.line1}
               </span>
               <br />
               <span className="inline-block opacity-0 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-                <span className="text-gradient">Built & Trained</span>
-                {" "}Here.
+                <span className="text-gradient">{hero.headline.line2Highlight}</span>
+                {" "}{hero.headline.line2Suffix}
               </span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed opacity-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
-              We are a strategic technology partner that builds market-defining digital products 
-              while forging the next generation of elite tech talent.
+              {hero.description}
             </p>
           </div>
 
@@ -68,7 +70,7 @@ const HeroSection = () => {
               className="relative bg-gradient-primary hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 text-primary-foreground group h-14 px-8 text-base overflow-hidden"
             >
               <span className="relative z-10 flex items-center font-semibold">
-                Hire Our Agency
+                {hero.primaryCta}
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </span>
             </Button>
@@ -80,7 +82,7 @@ const HeroSection = () => {
               <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 group-hover:bg-primary/20 transition-colors">
                 <Play className="h-3.5 w-3.5 text-primary ml-0.5" fill="currentColor" />
               </div>
-              Watch Demo
+              {hero.secondaryCta}
             </Button>
           </div>
 
@@ -88,7 +90,7 @@ const HeroSection = () => {
           <div className="text-center opacity-0 animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
             <p className="text-sm text-muted-foreground mb-6 font-medium">Trusted by innovative companies worldwide</p>
             <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10">
-              {['TechCorp', 'InnovateLabs', 'FutureDev', 'CloudScale', 'DataFlow'].map((company, i) => (
+              {hero.trustedBy.map((company) => (
                 <div 
                   key={company} 
                   className="px-4 py-2 rounded-lg bg-secondary/50 border border-transparent hover:border-primary/20 text-base font-bold font-display text-muted-foreground/50 hover:text-primary transition-all duration-300 cursor-default"
