@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      certifications: {
+        Row: {
+          certificate_id: string
+          course_name: string
+          created_at: string | null
+          expiry_date: string | null
+          id: string
+          is_active: boolean | null
+          issue_date: string
+          recipient_name: string
+          status: string
+          updated_at: string | null
+        }
+        Insert: {
+          certificate_id: string
+          course_name: string
+          created_at?: string | null
+          expiry_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          issue_date: string
+          recipient_name: string
+          status?: string
+          updated_at?: string | null
+        }
+        Update: {
+          certificate_id?: string
+          course_name?: string
+          created_at?: string | null
+          expiry_date?: string | null
+          id?: string
+          is_active?: boolean | null
+          issue_date?: string
+          recipient_name?: string
+          status?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
