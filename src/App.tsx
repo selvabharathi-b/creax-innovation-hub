@@ -9,6 +9,7 @@ import Team from "./pages/Team";
 import Blog from "./pages/Blog";
 import Products from "./pages/Products";
 import Roadmap from "./pages/Roadmap";
+import CertificationVerify from "./pages/CertificationVerify";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/blog" element={<Blog />} />
           <Route path="/products" element={<Products />} />
           <Route path="/roadmap" element={<Roadmap />} />
+          <Route path="/verify" element={<CertificationVerify />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

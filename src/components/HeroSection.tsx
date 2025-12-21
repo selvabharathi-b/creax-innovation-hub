@@ -1,4 +1,4 @@
-import { ArrowRight, Play, Sparkles, ChevronDown, Code2, Rocket, Users } from "lucide-react";
+import { ArrowRight, Play, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const HeroSection = () => {
@@ -51,23 +51,7 @@ const HeroSection = () => {
               </span>
               <br />
               <span className="inline-block opacity-0 animate-fade-in-up" style={{ animationDelay: '0.25s' }}>
-                <span className="relative inline-block">
-                  <span className="text-gradient">Built & Trained</span>
-                  <svg className="absolute -bottom-1 md:-bottom-2 left-0 w-full h-3 md:h-4" viewBox="0 0 300 12" fill="none" preserveAspectRatio="none">
-                    <path 
-                      d="M2 8C60 4 120 10 180 6C240 2 280 8 298 6" 
-                      stroke="hsl(var(--primary))" 
-                      strokeWidth="4" 
-                      strokeLinecap="round"
-                      className="animate-[dash_1s_ease-out_forwards]"
-                      style={{ 
-                        strokeDasharray: 300,
-                        strokeDashoffset: 300,
-                        animationDelay: '0.7s'
-                      }}
-                    />
-                  </svg>
-                </span>
+                <span className="text-gradient">Built & Trained</span>
                 {" "}Here.
               </span>
             </h1>
@@ -98,30 +82,6 @@ const HeroSection = () => {
               </div>
               Watch Demo
             </Button>
-          </div>
-
-          {/* Stats cards */}
-          <div className="grid grid-cols-3 gap-4 md:gap-6 max-w-2xl mx-auto mb-16 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.6s' }}>
-            {[
-              { icon: Code2, value: "50+", label: "Projects", color: "from-primary to-amber-500" },
-              { icon: Users, value: "200+", label: "Developers", color: "from-amber-500 to-orange-500" },
-              { icon: Rocket, value: "98%", label: "Success", color: "from-orange-500 to-red-500" },
-            ].map((stat, i) => (
-              <div 
-                key={stat.label}
-                className="group relative bg-card/80 backdrop-blur-sm rounded-2xl p-4 md:p-6 border border-border hover:border-primary/30 hover:shadow-lg transition-all duration-300 cursor-default"
-              >
-                <div className={`w-10 h-10 md:w-12 md:h-12 mx-auto mb-3 rounded-xl bg-gradient-to-br ${stat.color} flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                  <stat.icon className="w-5 h-5 md:w-6 md:h-6 text-white" />
-                </div>
-                <div className="text-2xl md:text-3xl font-bold font-display text-foreground text-center">
-                  {stat.value}
-                </div>
-                <div className="text-xs md:text-sm text-muted-foreground text-center">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
           </div>
 
           {/* Trust badges */}
