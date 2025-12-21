@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Search, Shield, CheckCircle, XCircle, Award, Calendar, User, Hash } from "lucide-react";
+import { Search, Shield, CheckCircle, XCircle, Award, Calendar, User, Hash, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
 import ScrollReveal from "@/components/ScrollReveal";
 import { siteData } from "@/data/siteData";
@@ -11,14 +12,22 @@ interface CertificateData {
   name: string;
   course: string;
   issueDate: string;
-  expiryDate: string;
-  status: "valid" | "expired" | "revoked";
+  expiryDate: string | null;
+  status: "active" | "expired" | "revoked";
 }
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Shield,
   CheckCircle,
   Award,
+};
+
+const formatDate = (dateString: string) => {
+  return new Date(dateString).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
 };
 
 const CertificationVerify = () => {
@@ -29,27 +38,36 @@ const CertificationVerify = () => {
   
   const { certification } = siteData;
 
-  // Mock verification - replace with actual API call
   const handleVerify = async () => {
     if (!certificateId.trim()) return;
     
     setIsSearching(true);
     setHasSearched(true);
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    // Mock data - in production, this would be an API response
-    if (certificateId.toLowerCase() === "crx-2024-001" || certificateId.toLowerCase() === "demo") {
-      setSearchResult({
-        id: "CRX-2024-001",
-        name: "John Doe",
-        course: "Full Stack Development Bootcamp",
-        issueDate: "January 15, 2024",
-        expiryDate: "January 15, 2027",
-        status: "valid"
-      });
-    } else {
+    try {
+      const { data, error } = await supabase
+        .from('certifications')
+        .select('*')
+        .eq('certificate_id', certificateId.trim())
+        .eq('is_active', true)
+        .maybeSingle();
+
+      if (error) throw error;
+
+      if (data) {
+        setSearchResult({
+          id: data.certificate_id,
+          name: data.recipient_name,
+          course: data.course_name,
+          issueDate: formatDate(data.issue_date),
+          expiryDate: data.expiry_date ? formatDate(data.expiry_date) : null,
+          status: data.status as "active" | "expired" | "revoked"
+        });
+      } else {
+        setSearchResult(null);
+      }
+    } catch (error) {
+      console.error('Error verifying certificate:', error);
       setSearchResult(null);
     }
     
@@ -58,7 +76,7 @@ const CertificationVerify = () => {
 
   const getStatusConfig = (status: string) => {
     switch (status) {
-      case "valid":
+      case "active":
         return {
           icon: CheckCircle,
           color: "text-emerald-500",
@@ -145,7 +163,7 @@ const CertificationVerify = () => {
                   className="h-14 px-8 bg-gradient-primary hover:shadow-lg hover:shadow-primary/25 transition-all text-primary-foreground"
                 >
                   {isSearching ? (
-                    <div className="w-5 h-5 border-2 border-primary-foreground/30 border-t-primary-foreground rounded-full animate-spin" />
+                    <Loader2 className="w-5 h-5 animate-spin" />
                   ) : (
                     <>
                       <Search className="w-5 h-5 mr-2" />
@@ -158,7 +176,7 @@ const CertificationVerify = () => {
             
             <ScrollReveal direction="up" delay={400}>
               <p className="text-sm text-muted-foreground mt-4">
-                Try "demo" or "CRX-2024-001" for a sample verification
+                Enter a certificate ID to verify its authenticity
               </p>
             </ScrollReveal>
           </div>
@@ -236,7 +254,9 @@ const CertificationVerify = () => {
                           </div>
                           <div>
                             <p className="text-sm text-muted-foreground mb-1">Expiry Date</p>
-                            <p className="text-lg font-semibold text-foreground">{searchResult.expiryDate}</p>
+                            <p className="text-lg font-semibold text-foreground">
+                              {searchResult.expiryDate || 'No Expiry'}
+                            </p>
                           </div>
                         </div>
                       </div>
