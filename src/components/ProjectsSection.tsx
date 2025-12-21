@@ -1,4 +1,6 @@
-import { Bot, ShoppingCart, Smartphone, ArrowRight } from "lucide-react";
+import { Bot, ShoppingCart, Smartphone, ArrowRight, Loader2, Briefcase, Code, Zap, Globe, Cpu, Database } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
 import { siteData } from "@/data/siteData";
@@ -7,10 +9,46 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Bot,
   ShoppingCart,
   Smartphone,
+  Briefcase,
+  Code,
+  Zap,
+  Globe,
+  Cpu,
+  Database,
 };
+
+interface Project {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  icon: string;
+  tags: string[];
+  color: string;
+  display_order: number;
+  is_active: boolean;
+}
 
 const ProjectsSection = () => {
   const { projects } = siteData;
+
+  const { data: dbProjects, isLoading } = useQuery({
+    queryKey: ['projects'],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('*')
+        .eq('is_active', true)
+        .order('display_order');
+      if (error) throw error;
+      return data as Project[];
+    },
+  });
+
+  // Use database data if available, otherwise fall back to static data
+  const displayProjects = dbProjects && dbProjects.length > 0 
+    ? dbProjects 
+    : projects.items;
 
   return (
     <section id="projects" className="py-24 relative">
@@ -39,51 +77,60 @@ const ProjectsSection = () => {
           </ScrollReveal>
         </div>
 
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        )}
+
         {/* Projects Grid */}
-        <div className="grid md:grid-cols-3 gap-6">
-          {projects.items.map((project, index) => {
-            const IconComponent = iconMap[project.icon];
-            return (
-              <ScrollReveal key={project.title} delay={index * 150} direction="up">
-                <div className="glass-card rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 group h-full">
-                  {/* Project Header Image */}
-                  <div className={`h-48 bg-gradient-to-br ${project.color} relative overflow-hidden`}>
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      {IconComponent && <IconComponent className="w-20 h-20 text-foreground/20 group-hover:scale-110 transition-transform duration-500" />}
-                    </div>
-                    <div className="absolute top-4 left-4">
-                      <span className="px-3 py-1 rounded-full bg-background/80 backdrop-blur-sm text-xs font-medium text-foreground">
-                        {project.category}
-                      </span>
-                    </div>
-                  </div>
-                  
-                  {/* Project Content */}
-                  <div className="p-6">
-                    <h3 className="text-lg font-bold font-display mb-2 text-foreground group-hover:text-primary transition-colors">
-                      {project.title}
-                    </h3>
-                    
-                    <p className="text-sm text-muted-foreground mb-4">
-                      {project.description}
-                    </p>
-                    
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags.map((tag) => (
-                        <span
-                          key={tag}
-                          className="px-2 py-1 rounded-md bg-secondary text-xs text-muted-foreground"
-                        >
-                          {tag}
+        {!isLoading && (
+          <div className="grid md:grid-cols-3 gap-6">
+            {displayProjects.map((project, index) => {
+              const IconComponent = iconMap[project.icon] || Briefcase;
+              return (
+                <ScrollReveal key={project.title} delay={index * 150} direction="up">
+                  <div className="glass-card rounded-2xl overflow-hidden hover:border-primary/30 transition-all duration-300 group h-full">
+                    {/* Project Header Image */}
+                    <div className={`h-48 bg-gradient-to-br ${project.color} relative overflow-hidden`}>
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <IconComponent className="w-20 h-20 text-foreground/20 group-hover:scale-110 transition-transform duration-500" />
+                      </div>
+                      <div className="absolute top-4 left-4">
+                        <span className="px-3 py-1 rounded-full bg-background/80 backdrop-blur-sm text-xs font-medium text-foreground">
+                          {project.category}
                         </span>
-                      ))}
+                      </div>
+                    </div>
+                    
+                    {/* Project Content */}
+                    <div className="p-6">
+                      <h3 className="text-lg font-bold font-display mb-2 text-foreground group-hover:text-primary transition-colors">
+                        {project.title}
+                      </h3>
+                      
+                      <p className="text-sm text-muted-foreground mb-4">
+                        {project.description}
+                      </p>
+                      
+                      <div className="flex flex-wrap gap-2">
+                        {project.tags.map((tag) => (
+                          <span
+                            key={tag}
+                            className="px-2 py-1 rounded-md bg-secondary text-xs text-muted-foreground"
+                          >
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </ScrollReveal>
-            );
-          })}
-        </div>
+                </ScrollReveal>
+              );
+            })}
+          </div>
+        )}
       </div>
     </section>
   );
