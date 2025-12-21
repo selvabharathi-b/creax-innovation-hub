@@ -4,9 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import ScrollReveal from "./ScrollReveal";
+import { siteData } from "@/data/siteData";
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  Twitter,
+  Linkedin,
+  Github,
+};
 
 const FooterCTA = () => {
   const [email, setEmail] = useState("");
+  const { footer, company } = siteData;
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -17,19 +25,6 @@ const FooterCTA = () => {
       });
       setEmail("");
     }
-  };
-
-  const socialLinks = [
-    { icon: Twitter, href: "#", label: "Twitter" },
-    { icon: Linkedin, href: "#", label: "LinkedIn" },
-    { icon: Github, href: "#", label: "GitHub" },
-  ];
-
-  const footerLinks = {
-    Company: ["About", "Careers", "Press", "Blog"],
-    Services: ["Agency", "Accelerator", "Design", "Education"],
-    Resources: ["Documentation", "Help Center", "Community", "Contact"],
-    Legal: ["Privacy", "Terms", "Cookies", "Licenses"],
   };
 
   return (
@@ -43,12 +38,11 @@ const FooterCTA = () => {
             
             <div className="relative z-10 max-w-2xl mx-auto text-center">
               <h2 className="text-3xl md:text-4xl font-bold font-display mb-4">
-                Ready to <span className="text-gradient">Dominate</span>?
+                {footer.cta.headline.prefix} <span className="text-gradient">{footer.cta.headline.highlight}</span>?
               </h2>
               
               <p className="text-muted-foreground mb-8">
-                Join the ecosystem where innovation meets execution. Subscribe to our newsletter 
-                for tech trends and hiring alerts.
+                {footer.cta.description}
               </p>
               
               <form 
@@ -59,7 +53,7 @@ const FooterCTA = () => {
                   <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                   <Input
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder={footer.cta.placeholder}
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="pl-10 bg-secondary border-border h-12"
@@ -70,7 +64,7 @@ const FooterCTA = () => {
                   type="submit" 
                   className="bg-gradient-primary hover:opacity-90 text-primary-foreground h-12 px-6 group"
                 >
-                  Subscribe
+                  {footer.cta.buttonText}
                   <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </form>
@@ -87,29 +81,32 @@ const FooterCTA = () => {
             <div className="col-span-2 md:col-span-1">
               <a href="#home" className="flex items-center gap-2 mb-4">
                 <div className="w-10 h-10 rounded-lg bg-gradient-primary flex items-center justify-center">
-                  <span className="text-primary-foreground font-bold text-xl font-display">C</span>
+                  <span className="text-primary-foreground font-bold text-xl font-display">{company.logo}</span>
                 </div>
-                <span className="text-xl font-bold font-display text-foreground">CreaX</span>
+                <span className="text-xl font-bold font-display text-foreground">{company.name}</span>
               </a>
               <p className="text-sm text-muted-foreground mb-4">
-                Build • Deploy • Dominate.
+                {company.tagline}
               </p>
               <div className="flex gap-3">
-                {socialLinks.map((social) => (
-                  <a
-                    key={social.label}
-                    href={social.href}
-                    className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
-                    aria-label={social.label}
-                  >
-                    <social.icon className="w-4 h-4" />
-                  </a>
-                ))}
+                {footer.social.map((social) => {
+                  const IconComponent = iconMap[social.platform];
+                  return (
+                    <a
+                      key={social.platform}
+                      href={social.href}
+                      className="w-9 h-9 rounded-lg bg-secondary flex items-center justify-center text-muted-foreground hover:text-primary hover:bg-primary/10 transition-colors"
+                      aria-label={social.platform}
+                    >
+                      {IconComponent && <IconComponent className="w-4 h-4" />}
+                    </a>
+                  );
+                })}
               </div>
             </div>
 
             {/* Links */}
-            {Object.entries(footerLinks).map(([category, links]) => (
+            {Object.entries(footer.links).map(([category, links]) => (
               <div key={category}>
                 <h4 className="font-semibold text-foreground mb-4 text-sm">{category}</h4>
                 <ul className="space-y-2">
@@ -132,10 +129,10 @@ const FooterCTA = () => {
         {/* Copyright */}
         <div className="py-6 flex flex-col md:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted-foreground">
-            © 2024 CreaX. All rights reserved.
+            {footer.copyright}
           </p>
           <p className="text-sm text-muted-foreground">
-            Designed & Developed with ❤️
+            {footer.credit}
           </p>
         </div>
       </div>

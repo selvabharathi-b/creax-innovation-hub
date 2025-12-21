@@ -1,19 +1,11 @@
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { siteData } from "@/data/siteData";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const navLinks = [
-    { name: "Home", href: "/" },
-    { name: "Projects", href: "/projects" },
-    { name: "Products", href: "/products" },
-    { name: "Team", href: "/team" },
-    { name: "Blog", href: "/blog" },
-    { name: "Roadmap", href: "/roadmap" },
-    { name: "Verify", href: "/verify" },
-  ];
+  const { navigation, company } = siteData;
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-xl border-b border-border/50">
@@ -22,14 +14,14 @@ const Navbar = () => {
           {/* Logo */}
           <a href="#home" className="flex items-center gap-2">
             <div className="w-10 h-10 rounded-lg bg-gradient-primary flex items-center justify-center">
-              <span className="text-primary-foreground font-bold text-xl font-display">C</span>
+              <span className="text-primary-foreground font-bold text-xl font-display">{company.logo}</span>
             </div>
-            <span className="text-xl font-bold font-display text-foreground">CreaX</span>
+            <span className="text-xl font-bold font-display text-foreground">{company.name}</span>
           </a>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6">
-            {navLinks.map((link) => (
+            {navigation.map((link) => (
               <a
                 key={link.name}
                 href={link.href}
@@ -63,7 +55,7 @@ const Navbar = () => {
         {isOpen && (
           <div className="md:hidden py-4 animate-fade-in">
             <div className="flex flex-col gap-4">
-              {navLinks.map((link) => (
+              {navigation.map((link) => (
                 <a
                   key={link.name}
                   href={link.href}
