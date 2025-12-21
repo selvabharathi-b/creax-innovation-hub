@@ -43,6 +43,8 @@ const ProjectsSection = () => {
       if (error) throw error;
       return data as Project[];
     },
+    staleTime: 1000 * 60,
+    refetchOnWindowFocus: true,
   });
 
   // Use database data if available, otherwise fall back to static data
