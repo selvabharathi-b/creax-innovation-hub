@@ -35,6 +35,8 @@ const ServicesSection = () => {
       if (error) throw error;
       return data as Service[];
     },
+    staleTime: 1000 * 60, // 1 minute
+    refetchOnWindowFocus: true,
   });
 
   // Use database data if available, otherwise fall back to static data
