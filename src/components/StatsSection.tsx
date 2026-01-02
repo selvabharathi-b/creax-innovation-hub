@@ -1,8 +1,9 @@
 import { Rocket, Target, TrendingDown, Clock, TrendingUp, Users, Award, Zap, Loader2 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+
 import ScrollReveal from "./ScrollReveal";
 import { siteData } from "@/data/siteData";
+import { api } from "@/lib/api";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Rocket,
@@ -28,30 +29,18 @@ interface Stat {
 const StatsSection = () => {
   const { stats: staticStats } = siteData;
 
-  const { data: dbStats, isLoading } = useQuery({
+  const { data: statsData, isLoading } = useQuery({
     queryKey: ['stats'],
-    queryFn: async () => {
-      const { data, error } = await supabase
-        .from('stats')
-        .select('*')
-        .eq('is_active', true)
-        .order('display_order');
-      if (error) throw error;
-      return data as Stat[];
-    },
-    staleTime: 1000 * 60,
-    refetchOnWindowFocus: true,
+    queryFn: api.getStats,
   });
 
   // Use database data if available, otherwise fall back to static data
-  const displayStats = dbStats && dbStats.length > 0 
-    ? dbStats 
-    : staticStats;
+  const displayStats = (statsData || staticStats) as Stat[];
 
   return (
     <section className="py-20 relative">
       <div className="absolute inset-0 bg-gradient-to-b from-secondary/20 to-background" />
-      
+
       <div className="container mx-auto px-6 md:px-12 lg:px-20 relative z-10">
         {isLoading && (
           <div className="flex justify-center py-8">
@@ -60,7 +49,7 @@ const StatsSection = () => {
         )}
 
         {!isLoading && (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {displayStats.map((stat, index) => {
               const IconComponent = iconMap[stat.icon];
               return (

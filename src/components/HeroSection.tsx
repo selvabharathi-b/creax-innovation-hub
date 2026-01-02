@@ -1,20 +1,32 @@
+import { useState, useEffect } from "react";
 import { ArrowRight, Play, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { siteData } from "@/data/siteData";
+import { Link } from "react-router-dom";
 
 const HeroSection = () => {
   const { hero, company } = siteData;
+  const [currentBadgeIndex, setCurrentBadgeIndex] = useState(0);
+  const badges = hero.badge.split(" • ");
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentBadgeIndex((prev) => (prev + 1) % badges.length);
+    }, 2000);
+    return () => clearInterval(interval);
+  }, [badges.length]);
 
   return (
     <section id="home" className="min-h-screen flex items-center pt-20 pb-12 relative overflow-hidden">
       {/* Layered background */}
       <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/30" />
-      
+
       {/* Decorative circles */}
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1200px] h-[1200px] rounded-full border border-primary/5" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[900px] h-[900px] rounded-full border border-primary/10" />
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] rounded-full border border-primary/10" />
-      
+
       {/* Animated gradient orbs */}
       <div className="absolute top-1/4 left-[5%] w-80 h-80 bg-primary/25 rounded-full blur-[120px] animate-pulse" />
       <div className="absolute bottom-1/4 right-[5%] w-96 h-96 bg-amber-500/20 rounded-full blur-[140px] animate-pulse" style={{ animationDelay: '1s' }} />
@@ -42,13 +54,19 @@ const HeroSection = () => {
               </div>
               <div className="w-px h-5 bg-border" />
               <Sparkles className="w-4 h-4 text-primary" />
-              <span className="text-sm font-semibold text-foreground">{hero.badge}</span>
+              <span className="hidden md:inline text-sm font-semibold text-foreground/60">{hero.badge}</span>
+              <span
+                key={currentBadgeIndex}
+                className="md:hidden text-sm font-semibold text-primary animate-in fade-in slide-in-from-bottom-1 duration-300"
+              >
+                {badges[currentBadgeIndex]}
+              </span>
             </div>
           </div>
 
           {/* Main headline */}
           <div className="text-center mb-12">
-            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-display leading-[1.02] tracking-tight mb-8">
+            <h1 className="text-3xl md:text-6xl lg:text-7xl xl:text-8xl font-bold font-display leading-[1.02] tracking-loose mb-8">
               <span className="inline-block opacity-0 animate-fade-in-up" style={{ animationDelay: '0.1s' }}>
                 {hero.headline.line1}
               </span>
@@ -58,36 +76,57 @@ const HeroSection = () => {
                 {" "}{hero.headline.line2Suffix}
               </span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed opacity-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
+            <p className="text-sm md:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed opacity-0 animate-fade-in-up" style={{ animationDelay: '0.4s' }}>
               {hero.description}
             </p>
           </div>
 
           {/* CTA Buttons */}
           <div className="flex flex-wrap justify-center gap-4 mb-16 opacity-0 animate-fade-in-up" style={{ animationDelay: '0.5s' }}>
-            <Button 
-              size="lg" 
-              className="relative bg-gradient-primary hover:shadow-xl hover:shadow-primary/25 transition-all duration-300 text-primary-foreground group h-14 px-8 text-base overflow-hidden"
-            >
-              <span className="relative z-10 flex items-center font-semibold">
-                {hero.primaryCta}
-                <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-              </span>
-            </Button>
-            <Button 
-              size="lg" 
-              variant="outline" 
-              className="border-border bg-card/80 backdrop-blur-sm hover:bg-card hover:border-primary/40 hover:shadow-lg transition-all duration-300 h-14 px-8 text-base group"
-            >
-              <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center mr-3 group-hover:bg-primary/20 transition-colors">
-                <Play className="h-3.5 w-3.5 text-primary ml-0.5" fill="currentColor" />
-              </div>
-              {hero.secondaryCta}
-            </Button>
+            <Link to="/contact">
+              <Button
+                size="lg"
+                variant="gradient"
+                className="group"
+              >
+                <span className="relative z-10 flex items-center font-semibold">
+                  {hero.primaryCta}
+                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Button>
+            </Link>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="group border-border"
+                >
+                  <div
+                    className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center group-hover:bg-primary-foreground transition-colors">
+                    <Play className="h-3 w-3 text-primary ml-0.5" fill="currentColor" />
+                  </div>
+                  {hero.secondaryCta}
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-[900px] p-0 border-none bg-black/95 shadow-2xl">
+                <div className="aspect-video w-full overflow-hidden rounded-lg">
+                  <iframe
+                    width="100%"
+                    height="100%"
+                    src={hero.videoUrl}
+                    title="Demo Video"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    className="w-full h-full"
+                  />
+                </div>
+              </DialogContent>
+            </Dialog>
           </div>
 
           {/* Trust badges */}
-          <div className="text-center opacity-0 animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
+          {/* <div className="text-center opacity-0 animate-fade-in-up" style={{ animationDelay: '0.7s' }}>
             <p className="text-sm text-muted-foreground mb-6 font-medium">Trusted by innovative companies worldwide</p>
             <div className="flex flex-wrap justify-center items-center gap-6 md:gap-10">
               {hero.trustedBy.map((company) => (
@@ -99,16 +138,16 @@ const HeroSection = () => {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 opacity-0 animate-fade-in-up" style={{ animationDelay: '1s' }}>
+      <div className="absolute bottom-8 left-1/2 right-1/2 -translate-x-1/2 opacity-0 animate-fade-in-up" style={{ animationDelay: '1s' }}>
         <a href="#about" className="flex flex-col items-center gap-2 text-muted-foreground/60 hover:text-primary transition-colors cursor-pointer group">
           <span className="text-xs font-medium tracking-widest uppercase">Explore</span>
-          <div className="w-6 h-10 rounded-full border-2 border-current flex items-start justify-center p-1.5">
-            <div className="w-1.5 h-3 bg-current rounded-full animate-bounce" />
+          <div className="w-4 h-6 rounded-full border-[1.5px] border-current flex items-start justify-center py-1.5">
+            <div className="w-[3px] h-1.5 bg-primary rounded-full animate-bounce" />
           </div>
         </a>
       </div>

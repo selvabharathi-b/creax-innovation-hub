@@ -1,6 +1,15 @@
 import { useState, useEffect, createContext, useContext, ReactNode } from 'react';
-import { User, Session } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
+
+type User = {
+  id: string;
+  email: string;
+  role: string;
+};
+
+type Session = {
+  user: User;
+  access_token: string;
+};
 
 interface AuthContextType {
   user: User | null;
@@ -18,73 +27,68 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    // Set up auth state listener FIRST
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      (event, session) => {
-        setSession(session);
-        setUser(session?.user ?? null);
-        setIsLoading(false);
-
-        // Defer role check with setTimeout to prevent deadlock
-        if (session?.user) {
-          setTimeout(() => {
-            checkAdminRole(session.user.id);
-          }, 0);
-        } else {
-          setIsAdmin(false);
-        }
-      }
-    );
-
-    // THEN check for existing session
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      setUser(session?.user ?? null);
+    // Check for existing session
+    const token = localStorage.getItem('auth_token');
+    if (token) {
+      fetch('http://localhost:3000/api/auth/me', {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+        .then((res) => {
+          if (res.ok) return res.json();
+          throw new Error('Failed to fetch user');
+        })
+        .then((data) => {
+          // data structure from /me is { user: ... }
+          setUser(data.user);
+          setSession({ user: data.user, access_token: token });
+        })
+        .catch(() => {
+          localStorage.removeItem('auth_token');
+          setUser(null);
+          setSession(null);
+        })
+        .finally(() => setIsLoading(false));
+    } else {
       setIsLoading(false);
-      
-      if (session?.user) {
-        checkAdminRole(session.user.id);
-      }
-    });
-
-    return () => subscription.unsubscribe();
+    }
   }, []);
 
-  const checkAdminRole = async (userId: string) => {
-    const { data, error } = await supabase
-      .rpc('has_role', { _user_id: userId, _role: 'admin' });
-    
-    if (!error && data) {
-      setIsAdmin(true);
-    } else {
-      setIsAdmin(false);
+  const signIn = async (email: string, password: string) => {
+    try {
+      const res = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error || 'Login failed');
+      }
+
+      const data = await res.json();
+      setUser(data.user);
+      setSession({ user: data.user, access_token: data.token });
+      localStorage.setItem('auth_token', data.token);
+      return { error: null };
+    } catch (error: any) {
+      return { error };
     }
   };
 
-  const signIn = async (email: string, password: string) => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    return { error: error as Error | null };
-  };
-
-  const signUp = async (email: string, password: string) => {
-    const redirectUrl = `${window.location.origin}/`;
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        emailRedirectTo: redirectUrl
-      }
-    });
-    return { error: error as Error | null };
+  const signUp = async () => {
+    return { error: new Error("Sign up not implemented") };
   };
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    setIsAdmin(false);
+    localStorage.removeItem('auth_token');
+    setUser(null);
+    setSession(null);
   };
+
+  const isAdmin = user?.role === 'admin';
 
   return (
     <AuthContext.Provider value={{ user, session, isLoading, isAdmin, signIn, signUp, signOut }}>

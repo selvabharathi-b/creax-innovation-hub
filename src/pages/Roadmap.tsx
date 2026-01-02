@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Rocket, Target, Sparkles, Globe, CheckCircle, Clock, Circle } from "lucide-react";
 import Navbar from "@/components/Navbar";
 import FooterCTA from "@/components/FooterCTA";
@@ -60,6 +61,11 @@ const Roadmap = () => {
         return { bg: "bg-muted", text: "text-muted-foreground", icon: Circle };
     }
   };
+
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background">
@@ -129,10 +135,10 @@ const Roadmap = () => {
                             {phase.status === 'completed' ? 'Completed' : phase.status === 'in-progress' ? 'In Progress' : 'Planned'}
                           </span>
                         </div>
-                        
+
                         <div className="text-primary font-medium text-sm mb-1">{phase.quarter}</div>
                         <h3 className="text-xl font-bold font-display text-foreground mb-4">{phase.title}</h3>
-                        
+
                         <div className={`space-y-2 ${isEven ? 'md:text-right' : 'text-left'}`}>
                           {phase.items.map((item) => (
                             <div key={item.text} className={`flex items-center gap-2 ${isEven ? 'md:flex-row-reverse' : ''}`}>
@@ -165,7 +171,7 @@ const Roadmap = () => {
               Beyond 2025
             </h3>
             <p className="text-muted-foreground max-w-2xl mx-auto">
-              We're building for the long term. Our vision extends to becoming the world's leading 
+              We're building for the long term. Our vision extends to becoming the world's leading
               technology ecosystem that bridges innovation and talent development.
             </p>
           </div>

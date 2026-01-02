@@ -1,6 +1,9 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
+// Triangular warning Icon lucide-react
+import { TriangleAlert } from "lucide-react";
+
 const NotFound = () => {
   const location = useLocation();
 
@@ -10,7 +13,8 @@ const NotFound = () => {
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted">
-      <div className="text-center">
+      <div className="flex flex-col items-center">
+        <TriangleAlert className="w-20 h-20 text-primary mb-4" />
         <h1 className="mb-4 text-4xl font-bold">404</h1>
         <p className="mb-4 text-xl text-muted-foreground">Oops! Page not found</p>
         <a href="/" className="text-primary underline hover:text-primary/90">

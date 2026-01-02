@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Bot, ShoppingCart, Smartphone, Globe, Database, Shield, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
@@ -55,6 +56,11 @@ const Projects = () => {
     },
   ];
 
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -91,7 +97,7 @@ const Projects = () => {
                     </span>
                   </div>
                 </div>
-                
+
                 <div className="p-6">
                   <h3 className="text-lg font-bold font-display mb-2 text-foreground group-hover:text-primary transition-colors">
                     {project.title}

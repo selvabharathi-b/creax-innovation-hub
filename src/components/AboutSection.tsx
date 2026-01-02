@@ -2,6 +2,7 @@ import { CheckCircle, ArrowRight, Code2, Users, Rocket, Target, Zap, Shield, Tre
 import { Button } from "@/components/ui/button";
 import ScrollReveal from "./ScrollReveal";
 import { siteData } from "@/data/siteData";
+import { Link } from "react-router-dom";
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   Zap,
@@ -23,7 +24,7 @@ const AboutSection = () => {
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-primary/[0.02] to-transparent" />
       <div className="absolute top-1/2 -translate-y-1/2 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[150px]" />
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-amber-500/10 rounded-full blur-[100px]" />
-      
+
       <div className="container mx-auto px-6 md:px-12 lg:px-24 xl:px-32 relative z-10">
         {/* Section header */}
         <ScrollReveal direction="up">
@@ -32,14 +33,14 @@ const AboutSection = () => {
               <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
               <span className="text-sm text-primary font-medium">{about.badge}</span>
             </div>
-            
+
             <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display leading-tight mb-6">
               {about.headline.prefix}{" "}
               <span className="text-gradient">{about.headline.highlight1}</span>
               <br className="hidden md:block" />
               {" "}{about.headline.middle} <span className="text-gradient">{about.headline.highlight2}</span>
             </h2>
-            
+
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto leading-relaxed">
               {about.description}
             </p>
@@ -47,15 +48,14 @@ const AboutSection = () => {
         </ScrollReveal>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 mb-20">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 mb-20">
           {about.stats.map((stat, index) => {
             const IconComponent = iconMap[stat.icon];
             return (
               <ScrollReveal key={stat.label} delay={index * 100} direction="up">
                 <div className="group relative bg-card rounded-2xl p-6 md:p-8 border border-border hover:border-primary/30 hover:shadow-xl transition-all duration-500 cursor-default overflow-hidden">
-                  {/* Gradient background on hover */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${stat.color} opacity-0 group-hover:opacity-5 transition-opacity duration-500`} />
-                  
+
                   <div className="relative z-10">
                     <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${stat.color} flex items-center justify-center mb-4 shadow-lg group-hover:scale-110 group-hover:shadow-xl transition-all duration-500`}>
                       {IconComponent && <IconComponent className="w-7 h-7 text-white" />}
@@ -71,7 +71,7 @@ const AboutSection = () => {
               </ScrollReveal>
             );
           })}
-        </div>
+        </div> */}
 
         {/* Main content - Two columns */}
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-start">
@@ -80,28 +80,28 @@ const AboutSection = () => {
             <div className="bg-card rounded-3xl p-8 md:p-10 border border-border relative overflow-hidden">
               {/* Decorative gradient */}
               <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-primary/10 to-transparent rounded-bl-full" />
-              
+
               <div className="relative z-10">
                 <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
                   <Target className="w-4 h-4" />
                   Our Mission
                 </div>
-                
+
                 <h3 className="text-2xl md:text-3xl font-bold font-display text-foreground mb-6">
                   {about.mission.title}
                 </h3>
-                
+
                 <p className="text-muted-foreground leading-relaxed mb-8">
                   {about.mission.description}
                 </p>
-                
+
                 {/* Visual divider */}
                 <div className="flex items-center gap-4 mb-8">
                   <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
                   <div className="w-3 h-3 rounded-full bg-primary/20 border border-primary/30" />
                   <div className="flex-1 h-px bg-gradient-to-r from-transparent via-border to-transparent" />
                 </div>
-                
+
                 {/* Quick stats row */}
                 <div className="grid grid-cols-3 gap-4">
                   {about.quickStats.map((item) => (
@@ -126,7 +126,7 @@ const AboutSection = () => {
                       {IconComponent && <IconComponent className="w-6 h-6 text-primary" />}
                     </div>
                     <span className="text-foreground font-medium flex-1">{item.text}</span>
-                    <CheckCircle className="w-5 h-5 text-emerald-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                    <CheckCircle className="w-5 h-5 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                   </div>
                 </ScrollReveal>
               );
@@ -134,10 +134,12 @@ const AboutSection = () => {
 
             <ScrollReveal delay={500} direction="up">
               <div className="pt-6">
-                <Button className="bg-gradient-primary hover:opacity-90 text-primary-foreground group h-14 px-8 text-base glow w-full sm:w-auto">
-                  Discover Our Story
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
+                <Link to="/about">
+                  <Button className="bg-gradient-primary hover:opacity-90 text-primary-foreground group h-14 px-8 text-base glow w-full sm:w-auto">
+                    Discover Our Story
+                    <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  </Button>
+                </Link>
               </div>
             </ScrollReveal>
           </div>

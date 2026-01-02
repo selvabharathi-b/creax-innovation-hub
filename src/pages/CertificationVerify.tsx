@@ -1,8 +1,8 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Search, Shield, CheckCircle, XCircle, Award, Calendar, User, Hash, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { supabase } from "@/integrations/supabase/client";
+
 import Navbar from "@/components/Navbar";
 import ScrollReveal from "@/components/ScrollReveal";
 import { siteData } from "@/data/siteData";
@@ -35,42 +35,19 @@ const CertificationVerify = () => {
   const [isSearching, setIsSearching] = useState(false);
   const [searchResult, setSearchResult] = useState<CertificateData | null>(null);
   const [hasSearched, setHasSearched] = useState(false);
-  
+
   const { certification } = siteData;
 
   const handleVerify = async () => {
     if (!certificateId.trim()) return;
-    
+
     setIsSearching(true);
     setHasSearched(true);
-    
-    try {
-      const { data, error } = await supabase
-        .from('certifications')
-        .select('*')
-        .eq('certificate_id', certificateId.trim())
-        .eq('is_active', true)
-        .maybeSingle();
 
-      if (error) throw error;
+    // Mock verify for now
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    setSearchResult(null); // Always not found for now
 
-      if (data) {
-        setSearchResult({
-          id: data.certificate_id,
-          name: data.recipient_name,
-          course: data.course_name,
-          issueDate: formatDate(data.issue_date),
-          expiryDate: data.expiry_date ? formatDate(data.expiry_date) : null,
-          status: data.status as "active" | "expired" | "revoked"
-        });
-      } else {
-        setSearchResult(null);
-      }
-    } catch (error) {
-      console.error('Error verifying certificate:', error);
-      setSearchResult(null);
-    }
-    
     setIsSearching(false);
   };
 
@@ -111,17 +88,22 @@ const CertificationVerify = () => {
     }
   };
 
+  // Scroll to top on mount
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       {/* Hero Section */}
       <section className="pt-32 pb-20 relative overflow-hidden">
         {/* Background elements */}
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-secondary/30" />
         <div className="absolute top-1/4 left-[10%] w-72 h-72 bg-primary/20 rounded-full blur-[100px]" />
         <div className="absolute bottom-1/4 right-[10%] w-80 h-80 bg-amber-500/15 rounded-full blur-[120px]" />
-        
+
         <div className="container mx-auto px-6 md:px-12 lg:px-24 relative z-10">
           <div className="max-w-3xl mx-auto text-center">
             {/* Icon */}
@@ -130,19 +112,19 @@ const CertificationVerify = () => {
                 <Shield className="w-10 h-10 text-primary-foreground" />
               </div>
             </ScrollReveal>
-            
+
             <ScrollReveal direction="up" delay={100}>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold font-display mb-6">
                 Certificate <span className="text-gradient">Verification</span>
               </h1>
             </ScrollReveal>
-            
+
             <ScrollReveal direction="up" delay={200}>
               <p className="text-lg text-muted-foreground mb-10 max-w-xl mx-auto">
                 {certification.description}
               </p>
             </ScrollReveal>
-            
+
             {/* Search Form */}
             <ScrollReveal direction="up" delay={300}>
               <div className="flex flex-col sm:flex-row gap-4 max-w-lg mx-auto">
@@ -157,7 +139,7 @@ const CertificationVerify = () => {
                     className="pl-12 h-14 text-base bg-card border-border focus:border-primary"
                   />
                 </div>
-                <Button 
+                <Button
                   onClick={handleVerify}
                   disabled={isSearching || !certificateId.trim()}
                   className="h-14 px-8 bg-gradient-primary hover:shadow-lg hover:shadow-primary/25 transition-all text-primary-foreground"
@@ -173,7 +155,7 @@ const CertificationVerify = () => {
                 </Button>
               </div>
             </ScrollReveal>
-            
+
             <ScrollReveal direction="up" delay={400}>
               <p className="text-sm text-muted-foreground mt-4">
                 Enter a certificate ID to verify its authenticity
@@ -202,7 +184,7 @@ const CertificationVerify = () => {
                         </div>
                       );
                     })()}
-                    
+
                     {/* Certificate Details */}
                     <div className="space-y-6">
                       <div className="flex items-start gap-4">
@@ -214,7 +196,7 @@ const CertificationVerify = () => {
                           <p className="text-xl font-bold font-display text-foreground">{searchResult.course}</p>
                         </div>
                       </div>
-                      
+
                       <div className="grid md:grid-cols-2 gap-6">
                         <div className="flex items-start gap-4">
                           <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0">
@@ -225,7 +207,7 @@ const CertificationVerify = () => {
                             <p className="text-lg font-semibold text-foreground">{searchResult.name}</p>
                           </div>
                         </div>
-                        
+
                         <div className="flex items-start gap-4">
                           <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0">
                             <Hash className="w-6 h-6 text-muted-foreground" />
@@ -236,7 +218,7 @@ const CertificationVerify = () => {
                           </div>
                         </div>
                       </div>
-                      
+
                       <div className="grid md:grid-cols-2 gap-6 pt-6 border-t border-border">
                         <div className="flex items-start gap-4">
                           <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0">
@@ -247,7 +229,7 @@ const CertificationVerify = () => {
                             <p className="text-lg font-semibold text-foreground">{searchResult.issueDate}</p>
                           </div>
                         </div>
-                        
+
                         <div className="flex items-start gap-4">
                           <div className="w-12 h-12 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0">
                             <Calendar className="w-6 h-6 text-muted-foreground" />
